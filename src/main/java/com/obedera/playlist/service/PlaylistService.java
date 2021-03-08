@@ -4,7 +4,6 @@ package com.obedera.playlist.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +30,21 @@ public class PlaylistService {
 		return listaConvertida;
 	}
 	
+	public List<PlaylistDTO> obterPorId(long id) {
+		List<PlaylistDTO> listaPlaylistBd = new ArrayList<>();
+		
+		
+		
+		playlistRepository.findById(id).ifPresent(item -> {
+			PlaylistDTO playlistBd = new PlaylistDTO(item.getNome(),item.getCategoria());
+			listaPlaylistBd.add(playlistBd);
+		});
+		
+		
+		return listaPlaylistBd;
+	
+	}
+	
 	public PlaylistDTO addPlaylist(PlaylistDTO item) {
 		Playlist playlistBd = new Playlist();
 		playlistBd.setNome(item.getNome_playlist());
@@ -39,6 +53,27 @@ public class PlaylistService {
 		return item;
 	}
 	
+	public List<PlaylistDTO> updatePlaylist(PlaylistDTO playlistRequest, long id) {
+		List<PlaylistDTO> listaPlaylistBd = new ArrayList<>();
+		
+		playlistRepository.findById(id).ifPresent(item -> {
+			item.setNome(playlistRequest.getNome_playlist());
+			item.setCategoria(playlistRequest.getCategoria_playlist());
+			playlistRepository.save(item);
+			listaPlaylistBd.add(playlistRequest);
+		});
+		
+		return listaPlaylistBd;
+	}
+	
+	public boolean deletePlaylist(long id) {
+		try {
+			playlistRepository.deleteById(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 	
 	
 	

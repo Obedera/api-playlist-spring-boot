@@ -1,10 +1,17 @@
 package com.obedera.playlist.model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "playlist")
@@ -17,6 +24,36 @@ public class Playlist {
 	
 	private String nome;
 	private String categoria;
+	
+	
+	@Column(name = "data_criacao")
+	private Date dataCriacao;
+	
+	
+	
+	@Column(name = "data_atualizacao")
+	private Date dataAtualizacao;
+	
+	
+
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+
+
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+
+	public Date getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+
+	public void setDataAtualizacao(Date dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
 
 
 	public String getCategoria() {
@@ -73,6 +110,18 @@ public class Playlist {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	
+	@PrePersist
+	public void onPrePersist() {
+		setDataCriacao(new Date());
+		setDataAtualizacao(new Date());
+	}
+	
+	@PreUpdate
+	public void onPreUpdate() {
+		setDataAtualizacao(new Date());
 	}
 	
 	
