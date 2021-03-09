@@ -17,7 +17,7 @@ import com.obedera.playlist.dto.PlaylistDTO;
 import com.obedera.playlist.service.PlaylistService;
 
 @RestController
-@RequestMapping("/playlist")
+@RequestMapping("/api/v1/playlist")
 public class PlaylistController {
 	
 	
